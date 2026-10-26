@@ -168,6 +168,7 @@ export default function HeroBannerCarousel({ events = [] }) {
 
         {/* Quick Details Badges */}
         <div
+          className="carousel-meta-row"
           style={{
             display: 'flex',
             gap: '18px',

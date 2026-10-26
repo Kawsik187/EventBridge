@@ -1,12 +1,38 @@
-/* Responsive Breakpoints & Mobile Adaptations */
+/* ==========================================================================
+   EventBridge All-Device Responsive Design System
+   Breakpoints:
+     - 2xl: >= 1440px (Wide Desktop)
+     - xl:  1025px - 1439px (Standard Desktop & Laptop)
+     - lg:  769px - 1024px (Tablets, iPad Landscape, Small Laptops)
+     - md:  641px - 768px (Large Phones, Phablets, iPad Portrait)
+     - sm:  481px - 640px (Standard Mobile Phones)
+     - xs:  <= 480px (Compact Mobile Phones)
+   ========================================================================== */
 
+/* Universal Mobile & Touch Polish */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Base interactive touch target rule */
+button, a, input, select {
+  touch-action: manipulation;
+}
+
+/* --------------------------------------------------------------------------
+   Large Tablets & Small Laptops (<= 1024px)
+   -------------------------------------------------------------------------- */
 @media (max-width: 1024px) {
   .event-details-layout {
     grid-template-columns: 1fr;
+    gap: 24px;
   }
   
   .event-sidebar-card {
     position: static;
+    width: 100%;
   }
 
   .dashboard-layout {
@@ -19,7 +45,14 @@
     border-bottom: 1px solid var(--border-color);
     flex-direction: row;
     overflow-x: auto;
-    padding: 12px;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 14px;
+    gap: 8px;
+    scrollbar-width: none;
+  }
+
+  .sidebar::-webkit-scrollbar {
+    display: none;
   }
 
   .sidebar-title {
@@ -28,28 +61,92 @@
 
   .sidebar-item {
     white-space: nowrap;
+    padding: 8px 14px;
+    font-size: 13.5px;
+    flex-shrink: 0;
   }
 
   .dashboard-content {
-    padding: 20px 16px;
+    padding: 24px 16px;
+    width: 100%;
+  }
+
+  /* Discover Hero Adjustment */
+  .discover-title-wrap h1 {
+    font-size: 2.1rem;
   }
 }
 
+/* --------------------------------------------------------------------------
+   Medium Tablets & Large Mobile (<= 768px)
+   -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
   .content-wrap {
-    padding: 0 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  /* Prevent iOS input auto-zoom by ensuring minimum 16px font-size */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="search"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  /* Header Navigation */
+  .nav-container {
+    height: 60px;
+    padding-left: 10px;
+    padding-right: 12px;
+  }
+
+  .desktop-nav {
+    display: none;
+  }
+
+  .brand-logo-img {
+    height: 36px;
+    max-width: 160px;
+  }
+
+  .brand-tagline {
+    display: none;
+  }
+
+  /* Discover Hero Section */
+  .discover-hero {
+    padding: 28px 0 24px;
+    margin-bottom: 24px;
   }
 
   .discover-header-row {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
+    margin-bottom: 18px;
   }
 
+  .discover-title-wrap h1 {
+    font-size: 1.75rem;
+    line-height: 1.2;
+  }
+
+  .discover-title-wrap p {
+    font-size: 0.98rem;
+  }
+
+  /* Search & Filter Component */
   .search-location-bar {
     flex-direction: column;
     align-items: stretch;
     padding: 10px;
+    gap: 10px;
   }
 
   .location-selector {
@@ -57,47 +154,234 @@
     border-top: 1px solid var(--border-color);
     padding-left: 0;
     padding-top: 8px;
+    width: 100%;
   }
 
+  /* Event Grid: 2 columns on tablets, 1 column on smaller */
   .event-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
   }
 
+  /* Dashboard Stats Grid */
   .stats-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
   }
 
+  /* Data Tables: Touch Scrollable */
   .table-container {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    border-radius: var(--radius-md);
+  }
+
+  .table-container table {
+    min-width: 600px;
+  }
+
+  /* Dialogs and Modals */
+  .modal-overlay {
+    padding: 16px 12px;
+    align-items: flex-end; /* Bottom sheet style on mobile */
   }
 
   .modal-card {
-    width: 95%;
-    max-height: 90vh;
+    width: 100%;
+    max-width: 100%;
+    max-height: 88vh;
+    border-radius: 20px 20px 10px 10px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-body {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .modal-footer {
     flex-direction: column-reverse;
+    gap: 10px;
   }
 
   .modal-footer button {
     width: 100%;
   }
-}
 
-@media (max-width: 480px) {
-  h1 { font-size: 1.6rem; }
-  h2 { font-size: 1.3rem; }
-
-  .stats-grid {
-    grid-template-columns: 1fr;
+  /* Sub-nav Category Strip */
+  .sub-nav-strip {
+    padding: 6px 0;
+    -webkit-overflow-scrolling: touch;
   }
 
-  .btn {
+  .sub-nav-container {
+    gap: 12px;
+    padding: 0 12px;
+  }
+
+  .sub-nav-item {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Small Phones & Handhelds (<= 640px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  /* Header adjustments for small phones */
+  .header-search-bar {
+    margin: 0 6px;
+    padding: 5px 10px;
+    max-width: 180px;
+  }
+
+  .header-search-bar input::placeholder {
+    font-size: 12px;
+  }
+
+  .host-event-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .user-info-text .user-name {
+    max-width: 75px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .user-role-pill {
+    display: none;
+  }
+
+  /* Hero Banner Carousel on Mobile */
+  .hero-banner-carousel-container {
+    min-height: 270px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+  }
+
+  .carousel-slide-fade {
+    padding: 24px 18px !important;
+  }
+
+  .carousel-slide-fade h2 {
+    font-size: 1.35rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 8px !important;
+  }
+
+  .carousel-slide-fade p {
+    font-size: 12.5px !important;
+    line-height: 1.4 !important;
+    -webkit-line-clamp: 2 !important;
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    margin-bottom: 14px !important;
+  }
+
+  .carousel-meta-row {
+    font-size: 11.5px !important;
+    gap: 10px !important;
+    margin-bottom: 16px !important;
+  }
+
+  /* Left slide-over drawer */
+  .left-sidebar-drawer {
+    width: 85vw;
+    max-width: 320px;
+  }
+
+  /* Event Details Tabs */
+  .details-tabs-nav {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 6px;
+    scrollbar-width: none;
+  }
+
+  .details-tabs-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .details-tab-btn {
+    white-space: nowrap;
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Compact Mobile Screens (<= 480px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.25rem; }
+  h3 { font-size: 1.1rem; }
+
+  /* Single Column Event Grid */
+  .event-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Single Column Stats Grid */
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Full Width Form Action Buttons (Clean & Scoped) */
+  .auth-form-card .btn,
+  .form-actions .btn,
+  .modal-footer .btn {
     width: 100%;
   }
 
+  /* Card Heights & Touch Targets */
   .event-card-banner {
-    height: 150px;
+    height: 165px;
+  }
+
+  .event-card-content {
+    padding: 14px;
+  }
+
+  /* Ticker chips wrap cleanly */
+  .hero-stats-row {
+    gap: 8px;
+  }
+
+  .stat-ticker-chip {
+    font-size: 11.5px;
+    padding: 5px 10px;
+  }
+
+  /* Auth Screens (Login / Register) */
+  .auth-card {
+    padding: 24px 18px;
+    margin: 16px 8px;
+    border-radius: 14px;
+  }
+
+  /* QR Scanner on small mobile screens */
+  .qr-scanner-frame {
+    width: 100% !important;
+    max-width: 280px !important;
+    height: 280px !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Ultra-Wide Monitors (>= 1600px)
+   -------------------------------------------------------------------------- */
+@media (min-width: 1600px) {
+  .content-wrap {
+    max-width: 1440px;
   }
 }
