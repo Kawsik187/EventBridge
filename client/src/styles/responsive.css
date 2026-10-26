@@ -657,6 +657,27 @@ button, a, input, select, textarea {
     display: none !important;
   }
 
+  /* Make Side Menu Drawer fully scrollable on all mobile viewports */
+  .left-sidebar-drawer {
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    touch-action: pan-y !important;
+  }
+
+  .sidebar-header {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 10 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .sidebar-content {
+    padding-bottom: calc(54px + env(safe-area-inset-bottom, 24px)) !important;
+  }
 }
 
 /* --------------------------------------------------------------------------
