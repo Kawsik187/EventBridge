@@ -24,10 +24,18 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.join(__dirname, '.env') });
+let currentDirname = process.cwd();
+try {
+  if (typeof import.meta !== 'undefined' && import.meta && import.meta.url) {
+    currentDirname = path.dirname(fileURLToPath(import.meta.url));
+  }
+} catch (e) {}
+
+try {
+  dotenv.config({ path: path.join(currentDirname, '.env') });
+} catch (e) {}
 dotenv.config();
+
 
 // Production security sanity check
 if (process.env.NODE_ENV === 'production') {
@@ -133,7 +141,7 @@ app.use('/api/submissions', submissionRoutes);
 app.use('/api/organizations', organizationRoutes);
 
 // Serve static client assets in production if client/dist exists
-const clientDistPath = path.resolve(__dirname, '../client/dist');
+const clientDistPath = path.resolve(currentDirname, '../client/dist');
 if (fs.existsSync(clientDistPath)) {
   app.use(express.static(clientDistPath));
   app.get('*', (req, res, next) => {
