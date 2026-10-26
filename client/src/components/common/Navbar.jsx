@@ -15,8 +15,10 @@ const Navbar = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [matchingCategories, setMatchingCategories] = useState([]);
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const searchContainerRef = useRef(null);
   const profileMenuRef = useRef(null);
+  const mobileSearchRef = useRef(null);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -31,12 +33,16 @@ const Navbar = () => {
       if (profileMenuRef.current && !profileMenuRef.current.contains(e.target)) {
         setUserDropdownOpen(false);
       }
+      if (mobileSearchRef.current && !mobileSearchRef.current.contains(e.target) && !e.target.closest('.nav-search-btn')) {
+        setMobileSearchOpen(false);
+      }
     };
 
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
         setUserDropdownOpen(false);
         setShowSearchDropdown(false);
+        setMobileSearchOpen(false);
       }
     };
 
@@ -51,6 +57,7 @@ const Navbar = () => {
   useEffect(() => {
     setUserDropdownOpen(false);
     setShowSearchDropdown(false);
+    setMobileSearchOpen(false);
   }, [location.pathname, location.search]);
 
   const handleLogout = () => {
@@ -85,6 +92,7 @@ const Navbar = () => {
   const handleHeaderSearchSubmit = (e) => {
     if (e) e.preventDefault();
     setShowSearchDropdown(false);
+    setMobileSearchOpen(false);
     const query = headerSearch.trim();
 
     if (!query) {
@@ -106,7 +114,7 @@ const Navbar = () => {
     <header className="nav-header">
       <div className="content-wrap nav-container">
         {/* Left Side Menu Toggle & Brand Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div className="nav-brand-group" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
           <button
             className="left-sidebar-toggle-btn"
             onClick={() => setSidebarOpen(true)}
@@ -214,9 +222,20 @@ const Navbar = () => {
 
         {/* User Profile & Right Actions */}
         <div className="nav-right-actions">
-          {/* Updates Bell Icon */}
+          {/* 1. Search Icon Button (Positioned next to notification bell on mobile) */}
+          <button
+            type="button"
+            className={`nav-search-btn ${mobileSearchOpen ? 'active' : ''}`}
+            onClick={() => setMobileSearchOpen((prev) => !prev)}
+            title="Search campus events"
+            aria-label="Toggle search bar"
+          >
+            {mobileSearchOpen ? <X size={18} /> : <Search size={18} />}
+          </button>
+
+          {/* 2. Updates & Announcements Bell Icon Button */}
           <Link to="/announcements" className="nav-bell-btn" title="Updates & Announcements">
-            <Bell size={19} />
+            <Bell size={18} />
             <span className="bell-badge" />
           </Link>
 
@@ -230,6 +249,7 @@ const Navbar = () => {
             </Link>
           ) : null}
 
+          {/* 3. User Profile Icon Button (or Login button for guests) */}
           {isAuthenticated ? (
             <div className="user-profile-menu" ref={profileMenuRef}>
               <button
@@ -324,17 +344,114 @@ const Navbar = () => {
               )}
             </div>
           ) : (
-            <div className="auth-buttons" style={{ display: 'flex', gap: '8px' }}>
-              <Link to="/login" className="btn btn-secondary btn-sm">
-                Log In
+            <div className="auth-buttons" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <Link to="/login" className="nav-login-icon-btn" title="Sign In">
+                <User size={18} />
+                <span className="nav-login-text">Sign In</span>
               </Link>
-              <Link to="/register" className="btn btn-primary btn-sm">
-                Register
-              </Link>
+              <div className="desktop-auth-links">
+                <Link to="/register" className="btn btn-primary btn-sm">
+                  Register
+                </Link>
+              </div>
             </div>
           )}
         </div>
       </div>
+
+      {/* Mobile Expandable Search Bar (Revealed on clicking search icon) */}
+      {mobileSearchOpen && (
+        <div className="mobile-search-expand-bar" ref={mobileSearchRef}>
+          <div className="content-wrap">
+            <form onSubmit={handleHeaderSearchSubmit} className="mobile-search-form">
+              <Search size={16} className="mobile-search-input-icon" />
+              <input
+                type="text"
+                placeholder="Search events, fests, hackathons..."
+                value={headerSearch}
+                onChange={handleSearchInputChange}
+                autoFocus
+              />
+              {headerSearch && (
+                <button
+                  type="button"
+                  className="search-clear-btn"
+                  onClick={() => {
+                    setHeaderSearch('');
+                    setShowSearchDropdown(false);
+                  }}
+                  aria-label="Clear search"
+                >
+                  <X size={14} />
+                </button>
+              )}
+              <button type="submit" className="mobile-search-go-btn">
+                Search
+              </button>
+            </form>
+
+            {/* Live Search Instant Dropdown on Mobile */}
+            {showSearchDropdown && headerSearch.trim().length > 0 && (
+              <div className="search-results-dropdown mobile-search-results">
+                {matchingCategories.length > 0 && (
+                  <div className="search-dropdown-group">
+                    <div className="search-group-label">Matching Categories</div>
+                    {matchingCategories.map((cat) => (
+                      <div
+                        key={cat}
+                        className="search-dropdown-item category-item"
+                        onClick={() => {
+                          setShowSearchDropdown(false);
+                          setMobileSearchOpen(false);
+                          setHeaderSearch('');
+                          navigate(`/events?category=${cat}`);
+                        }}
+                      >
+                        <Sparkles size={14} style={{ color: 'var(--primary)' }} />
+                        <span>{cat} Opportunities</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {searchResults.length > 0 ? (
+                  <div className="search-dropdown-group">
+                    <div className="search-group-label">Matching Events</div>
+                    {searchResults.map((evt) => (
+                      <div
+                        key={evt._id}
+                        className="search-dropdown-item event-item"
+                        onClick={() => {
+                          setShowSearchDropdown(false);
+                          setMobileSearchOpen(false);
+                          setHeaderSearch('');
+                          navigate(`/events/${evt._id}`);
+                        }}
+                      >
+                        <Calendar size={14} style={{ color: 'var(--accent-blue)', flexShrink: 0 }} />
+                        <div className="search-event-info">
+                          <span className="search-event-title">{evt.title}</span>
+                          <span className="search-event-meta">{evt.category} • {evt.date}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  matchingCategories.length === 0 && (
+                    <div className="search-dropdown-empty">
+                      No events found for "{headerSearch}"
+                    </div>
+                  )
+                )}
+
+                <div className="search-dropdown-footer" onClick={handleHeaderSearchSubmit}>
+                  Search all results for "{headerSearch}" →
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Sub-Navbar Category Bar (Unstop Signature) */}
       <div className="sub-nav-strip">
