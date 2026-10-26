@@ -307,18 +307,16 @@ button, a, input, select, textarea {
   }
 
 
-  /* Carousel Navigation Buttons on Mobile */
-  .carousel-nav-btn {
-    width: 34px;
-    height: 34px;
-  }
-
-  .carousel-nav-prev {
-    left: 8px;
-  }
-
+  /* Mobile: Remove move buttons for automatic moving banner (swipe/slide enabled) */
+  .carousel-nav-btn,
+  .carousel-nav-prev,
   .carousel-nav-next {
-    right: 8px;
+    display: none !important;
+  }
+
+  .carousel-dots-wrap {
+    bottom: 12px !important;
+    right: 14px !important;
   }
 
   /* Mobile: Clean, Simple & Neat Hero (Hide bulky text header) */

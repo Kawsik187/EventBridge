@@ -8,6 +8,53 @@ export default function HeroBannerCarousel({ events = [] }) {
   const featured = events.slice(0, 6);
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(null);
+  const [touchEndX, setTouchEndX] = useState(null);
+  const [dragStartX, setDragStartX] = useState(null);
+
+  // Minimum travel distance in px to register a horizontal swipe
+  const minSwipeDistance = 40;
+
+  // Touch handlers for mobile swipe gesture
+  const handleTouchStart = (e) => {
+    setTouchEndX(null);
+    setTouchStartX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX || !touchEndX) return;
+    const distance = touchStartX - touchEndX;
+    if (distance > minSwipeDistance) {
+      // Swiped left -> advance to next banner
+      nextSlide();
+    } else if (distance < -minSwipeDistance) {
+      // Swiped right -> go to previous banner
+      prevSlide();
+    }
+    setTouchStartX(null);
+    setTouchEndX(null);
+  };
+
+  // Mouse drag handlers for desktop/emulator swipe gesture
+  const handleMouseDown = (e) => {
+    if (e.button !== 0 || e.target.closest('a, button')) return;
+    setDragStartX(e.clientX);
+  };
+
+  const handleMouseUp = (e) => {
+    if (dragStartX === null) return;
+    const distance = dragStartX - e.clientX;
+    if (distance > minSwipeDistance) {
+      nextSlide();
+    } else if (distance < -minSwipeDistance) {
+      prevSlide();
+    }
+    setDragStartX(null);
+  };
 
   // Automatically advance to the next banner after 5 seconds
   useEffect(() => {
@@ -36,7 +83,15 @@ export default function HeroBannerCarousel({ events = [] }) {
   };
 
   return (
-    <div className="hero-banner-carousel-container">
+    <div
+      className="hero-banner-carousel-container"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      style={{ touchAction: 'pan-y', userSelect: 'none' }}
+    >
       {/* 5-Second Animated Progress Bar */}
       <div className="carousel-progress-track">
         <div key={currentIndex} className="carousel-progress-fill" />
@@ -246,6 +301,7 @@ export default function HeroBannerCarousel({ events = [] }) {
 
           {/* Dots Indicator with active pill indicator */}
           <div
+            className="carousel-dots-wrap"
             style={{
               position: 'absolute',
               bottom: '18px',
