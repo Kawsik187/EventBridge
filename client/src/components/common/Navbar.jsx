@@ -120,7 +120,7 @@ const Navbar = () => {
         </div>
 
         {/* Center Global Search Bar with Direct Search Icon Button & Live Dropdown */}
-        <div ref={searchContainerRef} style={{ flex: 1, maxWidth: '480px', position: 'relative', margin: '0 20px' }}>
+        <div ref={searchContainerRef} className="header-search-wrapper">
           <form onSubmit={handleHeaderSearchSubmit} className="header-search-bar" style={{ margin: 0 }}>
             <button
               type="submit"
@@ -131,13 +131,14 @@ const Navbar = () => {
             </button>
             <input
               type="text"
-              placeholder="Search events, categories (Technical, Cultural, Sports)..."
+              placeholder="Search campus events..."
               value={headerSearch}
               onChange={handleSearchInputChange}
               onFocus={() => {
                 if (headerSearch.trim()) setShowSearchDropdown(true);
               }}
             />
+
             {headerSearch && (
               <button
                 type="button"

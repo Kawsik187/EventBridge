@@ -1,30 +1,160 @@
 /* ==========================================================================
-   EventBridge All-Device Responsive Design System
+   EventBridge All-Device Responsive & UI/UX Design System
    Breakpoints:
-     - 2xl: >= 1440px (Wide Desktop)
-     - xl:  1025px - 1439px (Standard Desktop & Laptop)
-     - lg:  769px - 1024px (Tablets, iPad Landscape, Small Laptops)
-     - md:  641px - 768px (Large Phones, Phablets, iPad Portrait)
-     - sm:  481px - 640px (Standard Mobile Phones)
-     - xs:  <= 480px (Compact Mobile Phones)
+     - Ultra-wide: >= 1536px (Multi-column dashboard & grid)
+     - Laptop / Desktop: 1025px - 1535px (High-density productivity)
+     - Tablet / iPad: 769px - 1024px (Hybrid touch & pointer layouts)
+     - Large Phones: 481px - 768px (Fluid single-to-double column)
+     - Compact Phones: <= 480px (Thumb-first, bottom-sheet touch targets)
    ========================================================================== */
 
-/* Universal Mobile & Touch Polish */
+/* Universal Mobile, Touch, & Smooth Rendering Foundation */
 html, body {
   overflow-x: hidden;
   width: 100%;
   -webkit-tap-highlight-color: transparent;
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Base interactive touch target rule */
-button, a, input, select {
+/* Base touch responsiveness */
+button, a, input, select, textarea {
   touch-action: manipulation;
 }
 
+/* Header Search Container Sizing */
+.header-search-wrapper {
+  flex: 1;
+  max-width: 480px;
+  position: relative;
+  margin: 0 16px;
+  min-width: 0;
+}
+
+/* Carousel Navigation Chevrons */
+.carousel-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.carousel-nav-btn:hover {
+  background: rgba(15, 23, 42, 0.95);
+  transform: translateY(-50%) scale(1.08);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.carousel-nav-prev {
+  left: 16px;
+}
+
+.carousel-nav-next {
+  right: 16px;
+}
+
 /* --------------------------------------------------------------------------
-   Large Tablets & Small Laptops (<= 1024px)
+   Desktop & Laptop Hover Micro-Interactions (Pointer: fine)
+   -------------------------------------------------------------------------- */
+@media (hover: hover) and (pointer: fine) {
+  .event-card {
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s ease;
+  }
+
+  .event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 36px -8px rgba(15, 23, 42, 0.12), 0 4px 12px rgba(0, 0, 0, 0.04);
+    border-color: #cbd5e1;
+  }
+
+  .event-card-banner img {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .event-card:hover .event-card-banner img {
+    transform: scale(1.05);
+  }
+
+  .btn {
+    transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.18s ease,
+                background-color 0.18s ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-1.5px);
+  }
+
+  .btn:active {
+    transform: translateY(0);
+  }
+
+  .category-pill {
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .category-pill:hover {
+    transform: translateY(-1.5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Ultra-Wide Monitors (>= 1536px)
+   -------------------------------------------------------------------------- */
+@media (min-width: 1536px) {
+  .content-wrap {
+    max-width: 1480px;
+    margin: 0 auto;
+  }
+
+  .event-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .discover-title-wrap h1 {
+    font-size: 2.5rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Standard Laptop & Desktop (1025px - 1535px)
+   -------------------------------------------------------------------------- */
+@media (min-width: 1025px) and (max-width: 1535px) {
+  .event-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Tablets & Hybrid Screens (769px - 1024px)
    -------------------------------------------------------------------------- */
 @media (max-width: 1024px) {
+  .header-search-wrapper {
+    max-width: 320px;
+    margin: 0 10px;
+  }
+
   .event-details-layout {
     grid-template-columns: 1fr;
     gap: 24px;
@@ -71,22 +201,26 @@ button, a, input, select {
     width: 100%;
   }
 
-  /* Discover Hero Adjustment */
   .discover-title-wrap h1 {
     font-size: 2.1rem;
+  }
+
+  .event-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
 }
 
 /* --------------------------------------------------------------------------
-   Medium Tablets & Large Mobile (<= 768px)
+   Mobile Phones & Phablets (<= 768px)
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
   .content-wrap {
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 14px;
+    padding-right: 14px;
   }
 
-  /* Prevent iOS input auto-zoom by ensuring minimum 16px font-size */
+  /* Prevent iOS automatic zoom on form input focus (requires 16px minimum) */
   input[type="text"],
   input[type="email"],
   input[type="password"],
@@ -99,10 +233,10 @@ button, a, input, select {
     font-size: 16px !important;
   }
 
-  /* Header Navigation */
+  /* Compact Clean Header */
   .nav-container {
     height: 60px;
-    padding-left: 10px;
+    padding-left: 8px;
     padding-right: 12px;
   }
 
@@ -111,34 +245,66 @@ button, a, input, select {
   }
 
   .brand-logo-img {
-    height: 36px;
-    max-width: 160px;
+    height: 34px;
+    max-width: 150px;
   }
 
   .brand-tagline {
     display: none;
   }
 
+  .header-search-wrapper {
+    max-width: 200px;
+    margin: 0 6px;
+  }
+
+  .header-search-bar {
+    padding: 4px 10px;
+  }
+
+  .header-search-bar input {
+    font-size: 13px !important;
+  }
+
+  .host-event-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  /* Carousel Navigation Buttons on Mobile */
+  .carousel-nav-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .carousel-nav-prev {
+    left: 8px;
+  }
+
+  .carousel-nav-next {
+    right: 8px;
+  }
+
   /* Discover Hero Section */
   .discover-hero {
-    padding: 28px 0 24px;
-    margin-bottom: 24px;
+    padding: 24px 0 20px;
+    margin-bottom: 20px;
   }
 
   .discover-header-row {
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
-    margin-bottom: 18px;
+    gap: 14px;
+    margin-bottom: 16px;
   }
 
   .discover-title-wrap h1 {
-    font-size: 1.75rem;
-    line-height: 1.2;
+    font-size: 1.7rem;
+    line-height: 1.22;
   }
 
   .discover-title-wrap p {
-    font-size: 0.98rem;
+    font-size: 0.94rem;
   }
 
   /* Search & Filter Component */
@@ -157,19 +323,19 @@ button, a, input, select {
     width: 100%;
   }
 
-  /* Event Grid: 2 columns on tablets, 1 column on smaller */
+  /* Event Grid: 1 or 2 columns based on screen width */
   .event-grid {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 18px;
+    gap: 16px;
   }
 
   /* Dashboard Stats Grid */
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
+    gap: 12px;
   }
 
-  /* Data Tables: Touch Scrollable */
+  /* Horizontally Scrollable Tables for Mobile */
   .table-container {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -178,19 +344,19 @@ button, a, input, select {
   }
 
   .table-container table {
-    min-width: 600px;
+    min-width: 580px;
   }
 
-  /* Dialogs and Modals */
+  /* Mobile Bottom-Sheet Style Modals */
   .modal-overlay {
-    padding: 16px 12px;
-    align-items: flex-end; /* Bottom sheet style on mobile */
+    padding: 16px 10px;
+    align-items: flex-end;
   }
 
   .modal-card {
     width: 100%;
     max-width: 100%;
-    max-height: 88vh;
+    max-height: 90vh;
     border-radius: 20px 20px 10px 10px;
     display: flex;
     flex-direction: column;
@@ -210,109 +376,21 @@ button, a, input, select {
     width: 100%;
   }
 
-  /* Sub-nav Category Strip */
+  /* Category Strip Horizontal Scroll */
   .sub-nav-strip {
     padding: 6px 0;
     -webkit-overflow-scrolling: touch;
   }
 
   .sub-nav-container {
-    gap: 12px;
-    padding: 0 12px;
+    gap: 10px;
+    padding: 0 10px;
   }
 
   .sub-nav-item {
     font-size: 12px;
-    padding: 4px 10px;
-  }
-}
-
-/* --------------------------------------------------------------------------
-   Small Phones & Handhelds (<= 640px)
-   -------------------------------------------------------------------------- */
-@media (max-width: 640px) {
-  /* Header adjustments for small phones */
-  .header-search-bar {
-    margin: 0 6px;
-    padding: 5px 10px;
-    max-width: 180px;
-  }
-
-  .header-search-bar input::placeholder {
-    font-size: 12px;
-  }
-
-  .host-event-btn {
-    padding: 6px 10px;
-    font-size: 12px;
-  }
-
-  .user-info-text .user-name {
-    max-width: 75px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    padding: 5px 11px;
     white-space: nowrap;
-  }
-
-  .user-role-pill {
-    display: none;
-  }
-
-  /* Hero Banner Carousel on Mobile */
-  .hero-banner-carousel-container {
-    min-height: 270px;
-    border-radius: 12px;
-    margin-bottom: 24px;
-  }
-
-  .carousel-slide-fade {
-    padding: 24px 18px !important;
-  }
-
-  .carousel-slide-fade h2 {
-    font-size: 1.35rem !important;
-    line-height: 1.25 !important;
-    margin-bottom: 8px !important;
-  }
-
-  .carousel-slide-fade p {
-    font-size: 12.5px !important;
-    line-height: 1.4 !important;
-    -webkit-line-clamp: 2 !important;
-    display: -webkit-box !important;
-    -webkit-box-orient: vertical !important;
-    overflow: hidden !important;
-    margin-bottom: 14px !important;
-  }
-
-  .carousel-meta-row {
-    font-size: 11.5px !important;
-    gap: 10px !important;
-    margin-bottom: 16px !important;
-  }
-
-  /* Left slide-over drawer */
-  .left-sidebar-drawer {
-    width: 85vw;
-    max-width: 320px;
-  }
-
-  /* Event Details Tabs */
-  .details-tabs-nav {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    gap: 6px;
-    scrollbar-width: none;
-  }
-
-  .details-tabs-nav::-webkit-scrollbar {
-    display: none;
-  }
-
-  .details-tab-btn {
-    white-space: nowrap;
-    font-size: 13px;
-    padding: 8px 12px;
   }
 }
 
@@ -320,9 +398,9 @@ button, a, input, select {
    Compact Mobile Screens (<= 480px)
    -------------------------------------------------------------------------- */
 @media (max-width: 480px) {
-  h1 { font-size: 1.5rem; }
-  h2 { font-size: 1.25rem; }
-  h3 { font-size: 1.1rem; }
+  h1 { font-size: 1.45rem; }
+  h2 { font-size: 1.2rem; }
+  h3 { font-size: 1.05rem; }
 
   /* Single Column Event Grid */
   .event-grid {
@@ -330,13 +408,13 @@ button, a, input, select {
     gap: 16px;
   }
 
-  /* Single Column Stats Grid */
+  /* Single Column Stats */
   .stats-grid {
     grid-template-columns: 1fr;
     gap: 12px;
   }
 
-  /* Full Width Form Action Buttons (Clean & Scoped) */
+  /* Full Width Form Action Buttons */
   .auth-form-card .btn,
   .form-actions .btn,
   .modal-footer .btn {
@@ -358,30 +436,55 @@ button, a, input, select {
   }
 
   .stat-ticker-chip {
-    font-size: 11.5px;
-    padding: 5px 10px;
+    font-size: 11px;
+    padding: 5px 9px;
   }
 
   /* Auth Screens (Login / Register) */
   .auth-card {
-    padding: 24px 18px;
-    margin: 16px 8px;
+    padding: 22px 16px;
+    margin: 12px 6px;
     border-radius: 14px;
   }
 
-  /* QR Scanner on small mobile screens */
+  /* QR Scanner Frame */
   .qr-scanner-frame {
     width: 100% !important;
-    max-width: 280px !important;
-    height: 280px !important;
+    max-width: 260px !important;
+    height: 260px !important;
+  }
+
+  /* Hero Banner Carousel min-height */
+  .hero-banner-carousel-container {
+    min-height: 250px !important;
   }
 }
 
 /* --------------------------------------------------------------------------
-   Ultra-Wide Monitors (>= 1600px)
+   Touch-Friendly Minimum Targets (Coarse Pointers / Mobile)
    -------------------------------------------------------------------------- */
-@media (min-width: 1600px) {
-  .content-wrap {
-    max-width: 1440px;
+@media (pointer: coarse) {
+  .btn,
+  .nav-link,
+  .category-pill,
+  .details-tab-btn,
+  .sidebar-item {
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   iOS Safe Area Inset Support
+   -------------------------------------------------------------------------- */
+@supports (padding: env(safe-area-inset-bottom)) {
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .left-sidebar-drawer,
+  .modal-card {
+    padding-bottom: calc(16px + env(safe-area-inset-bottom));
   }
 }

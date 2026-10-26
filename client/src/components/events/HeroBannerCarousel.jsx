@@ -222,54 +222,19 @@ export default function HeroBannerCarousel({ events = [] }) {
         <>
           <button
             onClick={prevSlide}
-            style={{
-              position: 'absolute',
-              left: '16px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              zIndex: 3,
-              background: 'rgba(15, 23, 42, 0.65)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              borderRadius: '50%',
-              width: '42px',
-              height: '42px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#ffffff',
-              cursor: 'pointer',
-              backdropFilter: 'blur(4px)',
-              transition: 'background 0.2s ease',
-            }}
+            className="carousel-nav-btn carousel-nav-prev"
             aria-label="Previous Slide"
           >
-            <ChevronLeft size={22} />
+            <ChevronLeft size={20} />
           </button>
           <button
             onClick={nextSlide}
-            style={{
-              position: 'absolute',
-              right: '16px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              zIndex: 3,
-              background: 'rgba(15, 23, 42, 0.65)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              borderRadius: '50%',
-              width: '42px',
-              height: '42px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#ffffff',
-              cursor: 'pointer',
-              backdropFilter: 'blur(4px)',
-              transition: 'background 0.2s ease',
-            }}
+            className="carousel-nav-btn carousel-nav-next"
             aria-label="Next Slide"
           >
-            <ChevronRight size={22} />
+            <ChevronRight size={20} />
           </button>
+
 
           {/* Dots Indicator with active pill indicator */}
           <div
