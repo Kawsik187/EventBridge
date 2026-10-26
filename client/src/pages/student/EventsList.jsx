@@ -55,9 +55,10 @@ const EventsList = () => {
       const params = { category: cat, search: query };
       if (dept) params.departmentId = dept;
       const data = await eventService.getAllEvents(params);
-      setEvents(data);
+      setEvents(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error(err);
+      setEvents([]);
     } finally {
       setLoading(false);
     }

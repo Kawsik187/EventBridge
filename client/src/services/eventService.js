@@ -2,8 +2,19 @@ import api from './api';
 
 export const eventService = {
   getAllEvents: async (params = {}) => {
-    const response = await api.get('/events', { params });
-    return response.data;
+    try {
+      const response = await api.get('/events', { params });
+      if (Array.isArray(response.data)) {
+        return response.data;
+      }
+      if (response.data && Array.isArray(response.data.events)) {
+        return response.data.events;
+      }
+      return [];
+    } catch (err) {
+      console.warn('[eventService] Failed to load events from backend:', err?.message || err);
+      return [];
+    }
   },
 
   getEventById: async (id) => {

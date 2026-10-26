@@ -38,18 +38,20 @@ const Discover = () => {
     setLoading(true);
     try {
       const data = await eventService.getAllEvents();
-      setEvents(data);
+      setEvents(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error('Error loading events:', err);
+      setEvents([]);
     } finally {
       setLoading(false);
     }
   };
 
-  // Group events by section for Discover view
-  const trendingEvents = events.filter((e) => e.currentRegistrations > 10 || e.category === 'Technical').slice(0, 3);
-  const fests = events.filter((e) => e.category === 'Cultural' || e.category === 'Academic');
-  const upcomingEvents = events.slice(0, 6);
+  // Safely group events by section for Discover view
+  const safeEvents = Array.isArray(events) ? events : [];
+  const trendingEvents = safeEvents.filter((e) => e && (e.currentRegistrations > 10 || e.category === 'Technical')).slice(0, 3);
+  const fests = safeEvents.filter((e) => e && (e.category === 'Cultural' || e.category === 'Academic'));
+  const upcomingEvents = safeEvents.slice(0, 6);
 
   return (
     <div className="main-content" style={{ paddingTop: 0 }}>
