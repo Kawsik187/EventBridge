@@ -88,7 +88,8 @@ app.use(cors({
     if (
       allowedOrigins.includes(cleanOrigin) ||
       /^http:\/\/(localhost|127\.0\.0\.1):[0-9]+$/.test(cleanOrigin) ||
-      /\.vercel\.app$/.test(cleanOrigin)
+      /\.vercel\.app$/.test(cleanOrigin) ||
+      /\.netlify\.app$/.test(cleanOrigin)
     ) {
       return callback(null, true);
     }
@@ -184,7 +185,7 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 10000;
 
-if (!process.env.VERCEL) {
+if (!process.env.VERCEL && !process.env.NETLIFY && !process.env.AWS_LAMBDA_FUNCTION_NAME) {
   app.listen(PORT, () => {
     console.log(`==================================================`);
     console.log(`  EVENTBRIDGE BACKEND SERVER RUNNING ON PORT ${PORT} `);
