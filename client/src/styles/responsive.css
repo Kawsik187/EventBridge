@@ -479,22 +479,11 @@ button, a, input, select, textarea {
     width: 100%;
   }
 
-  /* Category Strip Horizontal Scroll */
+  /* Hide the blue category sub-nav strip on mobile screens for a simple, elegant view */
   .sub-nav-strip {
-    padding: 6px 0;
-    -webkit-overflow-scrolling: touch;
+    display: none !important;
   }
 
-  .sub-nav-container {
-    gap: 10px;
-    padding: 0 10px;
-  }
-
-  .sub-nav-item {
-    font-size: 12px;
-    padding: 5px 11px;
-    white-space: nowrap;
-  }
 }
 
 /* --------------------------------------------------------------------------
