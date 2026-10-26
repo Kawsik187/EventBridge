@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "EventBridge - Everything happening on campus, in one place.",
   "scripts": {
+    "start": "npm --prefix server start",
+    "build": "npm --prefix client install && npm --prefix client run build && npm --prefix server install",
     "server": "npm --prefix server start",
     "server:dev": "npm --prefix server run dev",
     "client": "npm --prefix client run dev",
-    "build": "npm --prefix client run build",
     "seed": "npm --prefix server run seed"
   }
 }

@@ -21,6 +21,7 @@ import teamRoutes from './routes/teamRoutes.js';
 import submissionRoutes from './routes/submissionRoutes.js';
 import organizationRoutes from './routes/organizationRoutes.js';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -113,15 +114,25 @@ app.use('/api/teams', teamRoutes);
 app.use('/api/submissions', submissionRoutes);
 app.use('/api/organizations', organizationRoutes);
 
-// Root endpoint for quick browser verification & ping
-app.get('/', (req, res) => {
-  res.status(200).json({
-    status: 'ok',
-    service: 'EventBridge Backend API',
-    health: '/api/health',
-    timestamp: new Date().toISOString(),
+// Serve static client assets in production if client/dist exists
+const clientDistPath = path.resolve(__dirname, '../client/dist');
+if (fs.existsSync(clientDistPath)) {
+  app.use(express.static(clientDistPath));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(path.join(clientDistPath, 'index.html'));
   });
-});
+} else {
+  // Root endpoint for quick browser verification & ping
+  app.get('/', (req, res) => {
+    res.status(200).json({
+      status: 'ok',
+      service: 'EventBridge Backend API',
+      health: '/api/health',
+      timestamp: new Date().toISOString(),
+    });
+  });
+}
 
 // Health check reporting honest database readiness
 app.get('/api/health', (req, res) => {
