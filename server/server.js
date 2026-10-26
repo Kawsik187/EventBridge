@@ -20,7 +20,12 @@ import departmentRoutes from './routes/departmentRoutes.js';
 import teamRoutes from './routes/teamRoutes.js';
 import submissionRoutes from './routes/submissionRoutes.js';
 import organizationRoutes from './routes/organizationRoutes.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, '.env') });
 dotenv.config();
 
 // Production security sanity check
