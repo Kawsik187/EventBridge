@@ -76,16 +76,18 @@ export default function HeroBannerCarousel({ events = [] }) {
       {/* Slide Content with smooth Fade-In */}
       <div
         key={`content-${currentIndex}`}
-        className="carousel-slide-fade"
+        className="carousel-slide-content carousel-slide-fade"
         style={{
+
           position: 'relative',
           zIndex: 2,
           padding: '44px 50px',
           maxWidth: '720px',
         }}
       >
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap' }}>
+        <div className="carousel-badges-wrap" style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap' }}>
           <span
+            className="carousel-badge-spotlight"
             style={{
               background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
               color: '#ffffff',
@@ -104,6 +106,7 @@ export default function HeroBannerCarousel({ events = [] }) {
             <Zap size={13} /> Featured Spotlight
           </span>
           <span
+            className="carousel-badge-category"
             style={{
               background: 'rgba(255, 255, 255, 0.16)',
               backdropFilter: 'blur(8px)',
@@ -119,6 +122,7 @@ export default function HeroBannerCarousel({ events = [] }) {
           </span>
           {currentEvent.prizes && currentEvent.prizes.length > 0 && (
             <span
+              className="carousel-badge-prize"
               style={{
                 background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
                 color: '#ffffff',
@@ -138,6 +142,7 @@ export default function HeroBannerCarousel({ events = [] }) {
         </div>
 
         <h2
+          className="carousel-slide-title"
           style={{
             fontSize: '2.1rem',
             fontWeight: 800,
@@ -151,6 +156,7 @@ export default function HeroBannerCarousel({ events = [] }) {
         </h2>
 
         <p
+          className="carousel-slide-desc"
           style={{
             fontSize: '1rem',
             color: '#e2e8f0',
@@ -187,7 +193,7 @@ export default function HeroBannerCarousel({ events = [] }) {
             <MapPin size={16} style={{ color: '#38bdf8' }} />
             <span>{currentEvent.venueId?.name || (currentEvent.format === 'online' ? 'Online' : 'Campus Venue')}</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div className="carousel-meta-cert" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <Award size={16} style={{ color: '#38bdf8' }} />
             <span>Verified Certificate Included</span>
           </div>
@@ -197,6 +203,7 @@ export default function HeroBannerCarousel({ events = [] }) {
         <div>
           <Link
             to={`/events/${currentEvent._id}`}
+            className="carousel-cta-btn"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -212,10 +219,11 @@ export default function HeroBannerCarousel({ events = [] }) {
               transition: 'background 0.2s ease, transform 0.2s ease',
             }}
           >
-            Explore & Register Now <ArrowRight size={17} />
+            <span>Explore & Register</span> <ArrowRight size={17} />
           </Link>
         </div>
       </div>
+
 
       {/* Manual Left/Right Navigation Chevrons */}
       {featured.length > 1 && (

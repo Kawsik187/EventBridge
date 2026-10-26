@@ -5,7 +5,9 @@ import { eventService } from '../../services/eventService';
 import { registrationService } from '../../services/registrationService';
 import EventCard from '../../components/events/EventCard';
 import HeroBannerCarousel from '../../components/events/HeroBannerCarousel';
-import { Sparkles, Calendar, Award, Flame, Zap, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Sparkles, Calendar, Award, Flame, Zap, ShieldCheck, ArrowRight, Code, Wrench, Trophy, Ticket, Users } from 'lucide-react';
+
+
 
 const Discover = () => {
   const { isAuthenticated } = useAuth();
@@ -102,7 +104,44 @@ const Discover = () => {
             {/* Moving Event Banner Carousel (5s Auto-rotation) */}
             <HeroBannerCarousel events={events} />
 
+            {/* Mobile Feature Quick-Action Slider (Visible only on mobile devices, hidden on PC) */}
+            <div className="mobile-features-strip">
+              <Link to="/events?category=Hackathon" className="mobile-feature-chip">
+                <span className="feature-chip-icon chip-hackathon"><Zap size={14} /></span>
+                <span>Hackathons</span>
+              </Link>
+              <Link to="/events?category=Cultural" className="mobile-feature-chip">
+                <span className="feature-chip-icon chip-cultural"><Sparkles size={14} /></span>
+                <span>Fests</span>
+              </Link>
+              <Link to="/events?category=Technical" className="mobile-feature-chip">
+                <span className="feature-chip-icon chip-technical"><Code size={14} /></span>
+                <span>Technical</span>
+              </Link>
+              <Link to="/events?category=Workshop" className="mobile-feature-chip">
+                <span className="feature-chip-icon chip-workshop"><Wrench size={14} /></span>
+                <span>Workshops</span>
+              </Link>
+              <Link to="/events?category=Competition" className="mobile-feature-chip">
+                <span className="feature-chip-icon chip-competition"><Trophy size={14} /></span>
+                <span>Contests</span>
+              </Link>
+              <Link to="/my-events" className="mobile-feature-chip">
+                <span className="feature-chip-icon chip-tickets"><Ticket size={14} /></span>
+                <span>My Tickets</span>
+              </Link>
+              <Link to="/certificates" className="mobile-feature-chip">
+                <span className="feature-chip-icon chip-cert"><Award size={14} /></span>
+                <span>Certificates</span>
+              </Link>
+              <Link to="/team-hub" className="mobile-feature-chip">
+                <span className="feature-chip-icon chip-teams"><Users size={14} /></span>
+                <span>Teams</span>
+              </Link>
+            </div>
+
             {/* Section 1: Hot & Trending Opportunities */}
+
             <section style={{ marginBottom: '44px' }}>
               <div className="section-header">
                 <h2 style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>

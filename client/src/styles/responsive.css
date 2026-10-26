@@ -33,6 +33,11 @@ button, a, input, select, textarea {
   min-width: 0;
 }
 
+/* Mobile Features Strip: Hidden by default on PC / Desktop */
+.mobile-features-strip {
+  display: none;
+}
+
 /* Carousel Navigation Chevrons */
 .carousel-nav-btn {
   position: absolute;
@@ -285,27 +290,125 @@ button, a, input, select, textarea {
     right: 8px;
   }
 
-  /* Discover Hero Section */
+  /* Mobile: Clean, Simple & Neat Hero (Hide bulky text header) */
   .discover-hero {
-    padding: 24px 0 20px;
+    display: none !important;
+  }
+
+  .content-wrap {
+    padding-top: 8px;
+  }
+
+  /* Mobile Top Slider (Sleek, uncluttered, focused) */
+  .hero-banner-carousel-container {
+    min-height: 220px !important;
+    border-radius: 14px !important;
+    margin-top: 4px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .carousel-slide-content {
+    padding: 18px 14px !important;
+  }
+
+  .carousel-slide-title {
+    font-size: 1.25rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 6px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  .carousel-slide-desc {
+    display: none !important; /* Hide long description on mobile for a clean neat look */
+  }
+
+  .carousel-meta-cert {
+    display: none !important;
+  }
+
+  .carousel-meta-row {
+    margin-bottom: 12px !important;
+    gap: 12px !important;
+    font-size: 11.5px !important;
+  }
+
+  .carousel-cta-btn {
+    padding: 8px 16px !important;
+    font-size: 12.5px !important;
+    border-radius: 6px !important;
+  }
+
+  .carousel-badges-wrap {
+    margin-bottom: 8px !important;
+    gap: 6px !important;
+  }
+
+  .carousel-badge-spotlight,
+  .carousel-badge-category,
+  .carousel-badge-prize {
+    font-size: 9.5px !important;
+    padding: 3px 8px !important;
+  }
+
+  /* Mobile Quick-Features Strip (Directly below top slider) */
+  .mobile-features-strip {
+    display: flex !important;
+    align-items: center;
+    gap: 9px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 2px 2px 14px;
     margin-bottom: 20px;
+    scrollbar-width: none;
   }
 
-  .discover-header-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-    margin-bottom: 16px;
+  .mobile-features-strip::-webkit-scrollbar {
+    display: none;
   }
 
-  .discover-title-wrap h1 {
-    font-size: 1.7rem;
-    line-height: 1.22;
+  .mobile-feature-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 13px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    color: #1e293b;
+    font-size: 12.5px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
   }
 
-  .discover-title-wrap p {
-    font-size: 0.94rem;
+  .mobile-feature-chip:active {
+    transform: scale(0.96);
+    background: #f8fafc;
   }
+
+  .feature-chip-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+  }
+
+  .chip-hackathon { background: #fef3c7; color: #d97706; }
+  .chip-cultural { background: #fce7f3; color: #db2777; }
+  .chip-technical { background: #e0f2fe; color: #0284c7; }
+  .chip-workshop { background: #f3e8ff; color: #9333ea; }
+  .chip-competition { background: #dcfce7; color: #16a34a; }
+  .chip-tickets { background: #fee2e2; color: #dc2626; }
+  .chip-cert { background: #e0e7ff; color: #4f46e5; }
+  .chip-teams { background: #ffedd5; color: #ea580c; }
+
 
   /* Search & Filter Component */
   .search-location-bar {
