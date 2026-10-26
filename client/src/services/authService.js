@@ -39,8 +39,12 @@ export const authService = {
   },
 
   getDepartments: async () => {
-    const response = await api.get('/departments');
-    return response.data;
+    try {
+      const response = await api.get('/departments');
+      return Array.isArray(response.data) ? response.data : [];
+    } catch (e) {
+      return [];
+    }
   },
 
   logout: async () => {

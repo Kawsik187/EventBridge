@@ -220,11 +220,12 @@ const RequestOrganizer = () => {
               value={formData.departmentId}
               onChange={(e) => setFormData({ ...formData, departmentId: e.target.value })}
             >
-              {departments.map((dept) => (
+              {Array.isArray(departments) && departments.map((dept) => (
                 <option key={dept._id} value={dept._id}>
                   {dept.name} ({dept.code})
                 </option>
               ))}
+
             </select>
           </div>
 

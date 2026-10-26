@@ -118,11 +118,12 @@ const EventsList = () => {
               style={{ width: 'auto', minWidth: '240px', cursor: 'pointer' }}
             >
               <option value="">All Departments (15 Branches)</option>
-              {departments.map((dept) => (
+              {Array.isArray(departments) && departments.map((dept) => (
                 <option key={dept._id} value={dept._id}>
                   {dept.code} – {dept.name}
                 </option>
               ))}
+
             </select>
           </div>
 
