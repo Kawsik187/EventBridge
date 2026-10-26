@@ -1,0 +1,27 @@
+{
+  "name": "eventbridge-server",
+  "version": "1.0.0",
+  "description": "EventBridge College Event Management Backend",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch-path=controllers --watch-path=models --watch-path=routes --watch-path=middleware --watch-path=server.js server.js",
+    "seed": "node utils/seedRunner.js",
+    "test": "node utils/testRequirement20.js",
+    "test:features": "node utils/testAllFeatures.js",
+    "test:lifecycle": "node utils/testUnstopLifecycle.js",
+    "test:security": "node utils/testConcurrencyAndSecurity.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "google-auth-library": "^11.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.3.1",
+    "qrcode": "^1.5.3"
+  }
+}
