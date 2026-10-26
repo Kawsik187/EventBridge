@@ -2,6 +2,7 @@
   "name": "eventbridge",
   "version": "1.0.0",
   "description": "EventBridge - Everything happening on campus, in one place.",
+  "type": "module",
   "scripts": {
     "start": "npm --prefix server start",
     "build": "npm --prefix client install && npm --prefix client run build && npm --prefix server install",
@@ -9,5 +10,9 @@
     "server:dev": "npm --prefix server run dev",
     "client": "npm --prefix client run dev",
     "seed": "npm --prefix server run seed"
+  },
+  "dependencies": {
+    "serverless-http": "^3.2.0"
   }
 }
+

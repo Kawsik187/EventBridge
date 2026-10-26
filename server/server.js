@@ -99,7 +99,7 @@ connectDB().then(async (connected) => {
   }
 });
 
-// Serverless DB connection middleware: ensures connection readiness for Vercel serverless functions
+// Serverless DB connection middleware: ensures connection readiness for Vercel/Netlify serverless functions
 app.use(async (req, res, next) => {
   if (mongoose.connection.readyState !== 1) {
     await connectDB();
@@ -107,7 +107,16 @@ app.use(async (req, res, next) => {
   next();
 });
 
+// Netlify functions path normalizer
+app.use((req, res, next) => {
+  if (req.url.startsWith('/.netlify/functions/api')) {
+    req.url = req.url.replace('/.netlify/functions/api', '/api') || '/api';
+  }
+  next();
+});
+
 // API Routes
+
 
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
