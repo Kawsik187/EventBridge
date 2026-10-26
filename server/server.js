@@ -49,6 +49,11 @@ app.use((req, res, next) => {
 });
 
 // Enable CORS with origin whitelist (not wildcard *)
+const clientUrls = (process.env.CLIENT_URL || '')
+  .split(',')
+  .map((url) => url.trim().replace(/\/+$/, ''))
+  .filter(Boolean);
+
 const allowedOrigins = [
   'http://localhost:3000',
   'http://127.0.0.1:3000',
@@ -58,16 +63,22 @@ const allowedOrigins = [
   'http://127.0.0.1:5173',
   'http://localhost:5174',
   'http://127.0.0.1:5174',
-  process.env.CLIENT_URL,
-].filter(Boolean);
+  ...clientUrls,
+];
+
 app.use(cors({
   origin: function(origin, callback) {
-    // Allow requests with no origin (mobile apps, curl, server-to-server)
+    // Allow requests with no origin (mobile apps, curl, server-to-server healthchecks)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin) || /^http:\/\/(localhost|127\.0\.0\.1):[0-9]+$/.test(origin)) {
+    const cleanOrigin = origin.replace(/\/+$/, '');
+    if (
+      allowedOrigins.includes(cleanOrigin) ||
+      /^http:\/\/(localhost|127\.0\.0\.1):[0-9]+$/.test(cleanOrigin) ||
+      /\.vercel\.app$/.test(cleanOrigin)
+    ) {
       return callback(null, true);
     }
-    return callback(new Error('Not allowed by CORS'));
+    return callback(new Error(`Origin ${origin} not allowed by CORS`));
   },
   credentials: true,
 }));
@@ -96,6 +107,16 @@ app.use('/api/departments', departmentRoutes);
 app.use('/api/teams', teamRoutes);
 app.use('/api/submissions', submissionRoutes);
 app.use('/api/organizations', organizationRoutes);
+
+// Root endpoint for quick browser verification & ping
+app.get('/', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    service: 'EventBridge Backend API',
+    health: '/api/health',
+    timestamp: new Date().toISOString(),
+  });
+});
 
 // Health check reporting honest database readiness
 app.get('/api/health', (req, res) => {

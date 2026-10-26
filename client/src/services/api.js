@@ -1,7 +1,13 @@
 import axios from 'axios';
 
+// In production (Vercel), VITE_API_URL points to the live Render backend (e.g., https://your-backend.onrender.com)
+// In local development, it falls back to '/api' which Vite proxies to http://localhost:5000
+const rawBase = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL.replace(/\/+$/, '')}/api`
+  : '/api';
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: rawBase,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
