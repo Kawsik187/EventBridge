@@ -99,7 +99,16 @@ connectDB().then(async (connected) => {
   }
 });
 
+// Serverless DB connection middleware: ensures connection readiness for Vercel serverless functions
+app.use(async (req, res, next) => {
+  if (mongoose.connection.readyState !== 1) {
+    await connectDB();
+  }
+  next();
+});
+
 // API Routes
+
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/registrations', registrationRoutes);
@@ -158,9 +167,14 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 10000;
 
-app.listen(PORT, () => {
-  console.log(`==================================================`);
-  console.log(`  EVENTBRIDGE BACKEND SERVER RUNNING ON PORT ${PORT} `);
-  console.log(`  Health Check: http://localhost:${PORT}/api/health`);
-  console.log(`==================================================`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`==================================================`);
+    console.log(`  EVENTBRIDGE BACKEND SERVER RUNNING ON PORT ${PORT} `);
+    console.log(`  Health Check: http://localhost:${PORT}/api/health`);
+    console.log(`==================================================`);
+  });
+}
+
+export default app;
+
